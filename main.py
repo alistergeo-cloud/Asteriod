@@ -52,6 +52,8 @@ def main():
                         log_event("asteroid_shot")
                         asteroid.split()
                         shot.kill()
+                        player.Setscore() 
+                        print(f"player_score")
             pygame.display.flip()
             
             log_state()
