@@ -9,6 +9,9 @@ class Player(CircleShape):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
         self.score  = 0
+        self.lives = 3
+        self.invulnerability_timer = 0
+        self.next_extra_life = 1000
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -27,6 +30,8 @@ class Player(CircleShape):
     
 
     def update(self, dt: float) -> None:
+        if self.invulnerability_timer > 0:
+            self.invulnerability_timer -= dt
         keys = pygame.key.get_pressed()
         self.shoot_timer -= dt  
         
@@ -58,8 +63,17 @@ class Player(CircleShape):
             shot.velocity *= PLAYER_SHOT_SPEED
             self.shoot_timer = PLAYER_SHOOT_COOLDOWN_SECONDS 
 
-    def setScore(score: int):
-        self.score += 10 
+    def set_score(self, points):
+        self.score += points
+        if self.score >= self.next_extra_life:
+            self.lives += 1
+            self.next_extra_life += 1000
 
-    def getScore(): ->int 
-        print(f"self.score")
+    def get_score(self):
+        return self.score
+
+    def lose_lives(self):
+        self.lives -= 1
+    
+    def get_lives(self):
+        return self.lives
