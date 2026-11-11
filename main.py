@@ -77,7 +77,7 @@ def main():
             lives_text = font.render(
             f"LIVES: {player.get_lives()}",
             True,
-            (255, 255, 255)
+            (0, 255, 100)
             )
 
             screen.blit(lives_text, (650, 20))
