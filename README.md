@@ -46,10 +46,11 @@ Every 1000 points you get one life
 
 1. Make sure Python is installed.
 2. Install Pygame or uv 
-    ```bash
+```bash
+   pip install uv
+    OR
    pip install pygame
-   ```bash
-   pip install pygame
+```
 3. Download or clone the project.
 4. cd in to Asteriods
 5. Run `main.py`. like
@@ -57,6 +58,16 @@ Every 1000 points you get one life
         python main.py
     B. for uv 
         uv run main.py
+
+###
+since the pytest are in a diffrent folder you have to first insall pytest on uv 
+```bash
+    uv add --dev pytest
+```
+then run with 
+```bash
+    uv run python -m pytest
+```
 
 ## Project Files
 
@@ -91,3 +102,68 @@ Every 1000 points you get one life
 | 11. Log game state | Current game information | Uses `log_state()` to save information about the game | Game information is written to the log |
 | 12. Check events | Pygame events | Checks if the player has closed the game window | Game closes when the player clicks the close button |
 | 13. Control game speed | Game clock | Uses `clock.tick(60)` to keep the game running at 60 FPS and work out the time between frames | Gets `dt` for the next frame |
+
+
+## Collison 
+
+    def collides_with(self, other): 
+        distance = self.position.distance_to(other.position)
+        return distance <= (self.radius + other.radius)
+
+this it the collsion decttion from CricleShape 
+it checks if the radius of Calculate the distance between the center of the two circles: "distance"
+Calculate the radius of each circle: r1 and r2.
+If distance is less than or equal to r1 + r2, the circles are colliding. If not, they aren't!
+
+
+
+
+## DOCUMENTATION
+The actual coding part of this project didn't have many problems the biggest ones I faced was with github
+sshing into the pared.compsci computer ment that the gmail was diffrent then our school one and becuse the school dosnt allow github emails to get though you cannot create a token or login on a diffrent device to over come this I used my home account to create and access token and pushed everything to my home account
+
+
+```mermaid
+classDiagram
+    class pygame.sprite.Sprite
+
+    class CircleShape {
+        +position
+        +velocity
+        +radius
+        +draw()
+        +update(dt)
+        +collides_with(other)
+    }
+
+    class Player {
+        +rotation
+        +shoot_timer
+        +rotate(dt)
+        +move(dt)
+        +shoot()
+        +update(dt)
+    }
+
+    class Asteroid {
+        +split()
+        +update(dt)
+        +draw()
+    }
+
+    class Shot {
+        +update(dt)
+        +draw()
+    }
+
+    class AsteroidField {
+        +spawn_timer
+        +update(dt)
+        +spawn()
+    }
+
+    pygame.sprite.Sprite <|-- CircleShape
+    CircleShape <|-- Player
+    CircleShape <|-- Asteroid
+    CircleShape <|-- Shot
+```
