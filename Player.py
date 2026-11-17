@@ -5,14 +5,23 @@ from constants import PLAYER_RADIUS, LINE_WIDTH,PLAYER_TURN_SPEED,PLAYER_SPEED,P
 
 class Player(CircleShape):
     def __init__(self, x, y):
+
+        
         self.shoot_timer = 0
-        super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
-        self.score  = 0
+        self.score = 0
         self.lives = 3
         self.invulnerability_timer = 0
         self.next_extra_life = 1000
+        self.blink_timer = 0
+        self.is_blinking = False
 
+        
+        super().__init__(x, y, PLAYER_RADIUS)
+        self.shot_sound = pygame.mixer.Sound("sound effects/shot_sound.mp3")
+        self.one_up_sound = pygame.mixer.Sound("sound effects/1upsound.mp3")
+
+        
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         right = pygame.Vector2(0, 1).rotate(self.rotation + 90) * self.radius / 1.5
@@ -21,8 +30,12 @@ class Player(CircleShape):
         c = self.position - forward * self.radius + right
         return [a, b, c]
 
-
+  
     def draw(self, screen):
+        if self.invulnerability_timer > 0:
+            if int(self.invulnerability_timer * 10) % 2 == 0:
+                return
+
         pygame.draw.polygon(screen, "white", self.triangle(), LINE_WIDTH)
   
     def rotate(self, dt):
@@ -61,13 +74,17 @@ class Player(CircleShape):
             shot = Shot(self.position.x, self.position.y)
             shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation)
             shot.velocity *= PLAYER_SHOT_SPEED
+            self.shot_sound.play()
             self.shoot_timer = PLAYER_SHOOT_COOLDOWN_SECONDS 
+
 
     def set_score(self, points):
         self.score += points
         if self.score >= self.next_extra_life:
             self.lives += 1
             self.next_extra_life += 1000
+            self.one_up_sound.play()
+
 
     def get_score(self):
         return self.score

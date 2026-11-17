@@ -93,35 +93,35 @@ classDiagram
         +position
         +velocity
         +radius
-        +draw()
-        +update(dt)
-        +collides_with(other)
+        +draw
+        +update
+        +collides_with
     }
 
     class Player {
         +rotation
         +shoot_timer
-        +rotate(dt)
-        +move(dt)
-        +shoot()
-        +update(dt)
+        +rotate
+        +move
+        +shoot
+        +update
     }
 
     class Asteroid {
-        +split()
-        +update(dt)
-        +draw()
+        +split
+        +update
+        +draw
     }
 
     class Shot {
-        +update(dt)
-        +draw()
+        +update
+        +draw
     }
 
     class AsteroidField {
         +spawn_timer
-        +update(dt)
-        +spawn()
+        +update
+        +spawn
     }
 
     pygame.sprite.Sprite <|-- CircleShape
@@ -132,7 +132,7 @@ classDiagram
 
 
 
-## Input, Process, Output: Game Loop (`main()`)
+## Input, Process, Output: Game loop
 
 | Step | Input | Process | Output |
 |---|---|---|---|
@@ -169,4 +169,4 @@ If distance is less than or equal to r1 + r2, the circles are colliding. If not,
 The actual coding part of this project didn't have many problems the biggest ones I faced was with github
 sshing into the pared.compsci computer ment that the gmail was diffrent then our school one and becuse the school dosnt allow github emails to get though you cannot create a token or login on a diffrent device to over come this I used my home account to create and access token and pushed everything to my home account
 
-
+### ai was used but not to write code mostly to explain errors and how to fix mainly with pytests

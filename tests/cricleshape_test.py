@@ -1,5 +1,9 @@
+import pytest
+import pygame
 from CircleShape import CircleShape
 
+
+# testing collision 
 def test_circles_overlap():
     circle1 = CircleShape(100, 100, 20)
     circle2 = CircleShape(110, 100, 20)
