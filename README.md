@@ -132,7 +132,7 @@ classDiagram
 
 
 ```mermaid
-game state
+flowchart TD
     Start([Start / Launch Game]) --> Init["Init Pygame & Groups<br/>call reset_game()"]
     Init --> LoopTop{"Game Loop<br/>Check Events"}
     
