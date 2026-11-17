@@ -93,35 +93,35 @@ classDiagram
         +position
         +velocity
         +radius
-        +draw
-        +update
-        +collides_with
+        +draw()
+        +update(dt)
+        +collides_with(other)
     }
 
     class Player {
         +rotation
         +shoot_timer
-        +rotate
-        +move
-        +shoot
-        +update
+        +rotate(dt)
+        +move(dt)
+        +shoot()
+        +update(dt)
     }
 
     class Asteroid {
-        +split
-        +update
-        +draw
+        +split()
+        +update(dt)
+        +draw()
     }
 
     class Shot {
-        +update
-        +draw
+        +update(dt)
+        +draw()
     }
 
     class AsteroidField {
         +spawn_timer
-        +update
-        +spawn
+        +update(dt)
+        +spawn()
     }
 
     pygame.sprite.Sprite <|-- CircleShape
@@ -131,8 +131,34 @@ classDiagram
 ```
 
 
+```mermaid
+game state
+    Start([Start / Launch Game]) --> Init["Init Pygame & Groups<br/>call reset_game()"]
+    Init --> LoopTop{"Game Loop<br/>Check Events"}
+    
+    LoopTop -->|QUIT Event| Exit([Exit Game])
+    LoopTop -->|Continue| CheckState{"game_over == False?"}
+    
+    %% Active Gameplay Branch
+    CheckState -->|Yes: Playing| Update["Update Sprites<br/>(updatable.update(dt))"]
+    Update --> Collisions{"Check Collisions"}
+    Collisions -->|Shot hits Asteroid| Split["Kill Shot & Split Asteroid"]
+    Split --> DrawPlay["Draw All Sprites"]
+    Collisions -->|No Player Hit| DrawPlay
+    Collisions -->|Asteroid hits Player| SetOver["game_over = True"]
+    SetOver --> DrawPlay
+    DrawPlay --> Flip["pygame.display.flip()<br/>tick(60)"]
+    Flip --> LoopTop
 
-## Input, Process, Output: Game loop
+    %% Game Over Branch
+    CheckState -->|No: Game Over| DrawOver["Render 'GAME OVER'<br/>& 'Press R to Restart'"]
+    DrawOver --> CheckRestart{"Pressed 'R'?"}
+    CheckRestart -->|No| Flip
+    CheckRestart -->|Yes| Reset["call reset_game()<br/>game_over = False"]
+    Reset --> Flip
+```
+
+## Input, Process, Output: Game Loop
 
 | Step | Input | Process | Output |
 |---|---|---|---|
@@ -169,4 +195,5 @@ If distance is less than or equal to r1 + r2, the circles are colliding. If not,
 The actual coding part of this project didn't have many problems the biggest ones I faced was with github
 sshing into the pared.compsci computer ment that the gmail was diffrent then our school one and becuse the school dosnt allow github emails to get though you cannot create a token or login on a diffrent device to over come this I used my home account to create and access token and pushed everything to my home account
 
-### ai was used but not to write code mostly to explain errors and how to fix mainly with pytests and explain how to use the pygame library all code written by me 
+
+### ai was used but not to write code mostly to explain errors and how to fix mainly with pytests and help with read me diagrams
